@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * @Description: IO方式服务器端
+ * @Description: IO服务器端
  * @Author: zb
  * @Date: 2020-02-25
  */

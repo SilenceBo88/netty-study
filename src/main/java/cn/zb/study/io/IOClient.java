@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Date;
 
 /**
- * @Description: IO方式客户端
+ * @Description: IO客户端
  * @Author: zb
  * @Date: 2020-02-25
  */
