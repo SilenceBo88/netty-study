@@ -59,7 +59,7 @@ public class NettyClient {
                 int order = (MAX_RETRY - retry) + 1;
                 // 本次重连的间隔
                 int delay = 1 << order;
-                System.err.println(new Date() + ": 连接失败，第" + order + "次重连……");
+                System.err.println(": 连接失败，第" + order + "次重连……");
                 bootstrap
                         .config()
                         .group()

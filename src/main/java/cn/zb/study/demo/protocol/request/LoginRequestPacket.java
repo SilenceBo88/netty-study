@@ -15,7 +15,7 @@ public class LoginRequestPacket extends Packet {
     /**
      * 用户id
      */
-    private Integer userId;
+    private String userId;
 
     /**
      * 用户名称
