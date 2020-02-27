@@ -2,8 +2,12 @@ package cn.zb.study.demo.protocol;
 
 import static cn.zb.study.demo.protocol.command.Command.LOGIN_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.LOGIN_RESPONSE;
+import static cn.zb.study.demo.protocol.command.Command.MESSAGE_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.MESSAGE_RESPONSE;
 import cn.zb.study.demo.protocol.request.LoginRequestPacket;
+import cn.zb.study.demo.protocol.request.MessageRequestPacket;
 import cn.zb.study.demo.protocol.response.LoginResponsePacket;
+import cn.zb.study.demo.protocol.response.MessageResponsePacket;
 import cn.zb.study.demo.serialize.Serializer;
 import cn.zb.study.demo.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -70,6 +74,8 @@ public class PacketCodec {
         packetMap = new HashMap<>();
         packetMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
         packetMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
