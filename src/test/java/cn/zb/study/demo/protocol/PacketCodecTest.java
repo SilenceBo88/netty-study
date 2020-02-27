@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PacketCodeCTest {
+public class PacketCodecTest {
 
     @Test
     public void test() {
@@ -19,9 +19,9 @@ public class PacketCodeCTest {
         loginRequestPacket.setUsername("zhaobo");
         loginRequestPacket.setPassword("123456");
 
-        PacketCodeC packetCodeC = new PacketCodeC();
-        ByteBuf byteBuf = packetCodeC.encode(loginRequestPacket);
-        Packet decodedPacket = packetCodeC.decode(byteBuf);
+        PacketCodec packetCodec = new PacketCodec();
+        ByteBuf byteBuf = packetCodec.encode(loginRequestPacket);
+        Packet decodedPacket = packetCodec.decode(byteBuf);
 
         Assert.assertArrayEquals(serializer.serialize(loginRequestPacket), serializer.serialize(decodedPacket));
     }

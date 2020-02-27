@@ -37,7 +37,7 @@ import java.util.Objects;
  * @Author: zb
  * @Date: 2020-02-27
  */
-public class PacketCodeC {
+public class PacketCodec {
 
     /**
      * 魔数
