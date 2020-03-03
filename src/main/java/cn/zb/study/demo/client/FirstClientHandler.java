@@ -22,6 +22,11 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buffer = getByteBuf(ctx);
         // 2. 写数据
         ctx.channel().writeAndFlush(buffer);
+
+        /*for (int i = 0; i < 1000; i++) {
+            ByteBuf buffer = getByteBuf(ctx);
+            ctx.channel().writeAndFlush(buffer);
+        }*/
     }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
