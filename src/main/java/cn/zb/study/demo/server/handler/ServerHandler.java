@@ -1,4 +1,4 @@
-package cn.zb.study.demo.server;
+package cn.zb.study.demo.server.handler;
 
 import cn.zb.study.demo.protocol.Packet;
 import cn.zb.study.demo.protocol.PacketCodec;
@@ -17,6 +17,7 @@ import java.util.Date;
  * @Author: zb
  * @Date: 2020-02-26
  */
+@Deprecated
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
@@ -47,7 +48,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             }
 
             // 登录响应
-            ByteBuf responseByteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+            ByteBuf responseByteBuf = PacketCodec.INSTANCE.encode(ctx.alloc().ioBuffer(), loginResponsePacket);
             ctx.channel().writeAndFlush(responseByteBuf);
         }else if (packet instanceof MessageRequestPacket){
             // 客户端发来消息
@@ -56,7 +57,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
             MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
             messageResponsePacket.setMessage("服务端回复【" + messageRequestPacket.getMessage() + "】");
-            ByteBuf responseByteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
+            ByteBuf responseByteBuf = PacketCodec.INSTANCE.encode(ctx.alloc().ioBuffer(), messageResponsePacket);
             ctx.channel().writeAndFlush(responseByteBuf);
         }
     }

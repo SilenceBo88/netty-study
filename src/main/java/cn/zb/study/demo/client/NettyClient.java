@@ -1,5 +1,9 @@
 package cn.zb.study.demo.client;
 
+import cn.zb.study.demo.client.handler.LoginResponseHandler;
+import cn.zb.study.demo.client.handler.MessageResponseHandler;
+import cn.zb.study.demo.codec.PacketDecoder;
+import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.protocol.PacketCodec;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
 import cn.zb.study.demo.util.LoginUtil;
@@ -40,7 +44,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
@@ -86,7 +93,7 @@ public class NettyClient {
 
                       MessageRequestPacket packet = new MessageRequestPacket();
                       packet.setMessage(line);
-                      ByteBuf byteBuf = PacketCodec.INSTANCE.encode(channel.alloc(), packet);
+                      ByteBuf byteBuf = PacketCodec.INSTANCE.encode(channel.alloc().ioBuffer(), packet);
                       channel.writeAndFlush(byteBuf);
                   }
               }

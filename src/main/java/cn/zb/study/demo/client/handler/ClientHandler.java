@@ -1,4 +1,4 @@
-package cn.zb.study.demo.client;
+package cn.zb.study.demo.client.handler;
 
 import cn.zb.study.demo.protocol.Packet;
 import cn.zb.study.demo.protocol.PacketCodec;
@@ -18,6 +18,7 @@ import java.util.UUID;
  * @Author: zb
  * @Date: 2020-02-26
  */
+@Deprecated
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
@@ -31,7 +32,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         loginRequestPacket.setPassword("123456");
 
         // 编码
-        ByteBuf buffer = PacketCodec.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
+        ByteBuf buffer = PacketCodec.INSTANCE.encode(ctx.alloc().ioBuffer(), loginRequestPacket);
 
         // 写数据
         ctx.channel().writeAndFlush(buffer);

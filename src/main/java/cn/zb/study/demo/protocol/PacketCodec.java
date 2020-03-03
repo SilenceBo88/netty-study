@@ -85,13 +85,11 @@ public class PacketCodec {
     /**
      * 编码过程
      */
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
-        // 1. 创建 ByteBuf 对象
-        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
-        // 2. 序列化 Java 对象
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
+        // 1. 序列化 Java 对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
-        // 3. 编码过程
+        // 2. 编码过程
         byteBuf.writeInt(MAGIC_NUMBER);
         byteBuf.writeByte(packet.getVersion());
         byteBuf.writeByte(Serializer.DEFAULT.getSerializerAlgorithm());
