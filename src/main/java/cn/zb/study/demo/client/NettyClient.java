@@ -4,6 +4,7 @@ import cn.zb.study.demo.client.handler.LoginResponseHandler;
 import cn.zb.study.demo.client.handler.MessageResponseHandler;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
+import cn.zb.study.demo.codec.Spliter;
 import cn.zb.study.demo.protocol.PacketCodec;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
 import cn.zb.study.demo.util.LoginUtil;
@@ -44,6 +45,8 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
+                        //ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
+                        ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
