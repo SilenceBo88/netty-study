@@ -3,6 +3,7 @@ package cn.zb.study.demo.server;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
+import cn.zb.study.demo.server.handler.AuthHandler;
 import cn.zb.study.demo.server.handler.LoginRequestHandler;
 import cn.zb.study.demo.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -42,6 +43,8 @@ public class NettyServer {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandler());
+                        // 新增加用户认证handler
+                        ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
