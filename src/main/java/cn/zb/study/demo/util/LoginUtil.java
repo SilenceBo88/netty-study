@@ -9,6 +9,7 @@ import io.netty.util.Attribute;
  * @Author: zb
  * @Date: 2020-02-27
  */
+@Deprecated
 public class LoginUtil {
 
     /**

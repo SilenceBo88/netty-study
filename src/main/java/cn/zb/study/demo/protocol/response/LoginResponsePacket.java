@@ -13,6 +13,16 @@ import lombok.Data;
 public class LoginResponsePacket extends Packet {
 
     /**
+     * 用户id
+     */
+    private String userId;
+
+    /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
      * 是否成功
      */
     private boolean success;

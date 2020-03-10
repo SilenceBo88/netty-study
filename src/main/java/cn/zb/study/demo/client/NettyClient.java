@@ -5,11 +5,10 @@ import cn.zb.study.demo.client.handler.MessageResponseHandler;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
-import cn.zb.study.demo.protocol.PacketCodec;
+import cn.zb.study.demo.protocol.request.LoginRequestPacket;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
-import cn.zb.study.demo.util.LoginUtil;
+import cn.zb.study.demo.util.SessionUtil;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -45,7 +44,6 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
-                        //ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
@@ -87,19 +85,38 @@ public class NettyClient {
      * 开启控制台线程
      */
     private static void startConsoleThread(Channel channel){
+        Scanner sc = new Scanner(System.in);
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
         new Thread(() -> {
               while (!Thread.interrupted()){
- //                 if (LoginUtil.hasLogin(channel)) {
-                      System.out.println("输入消息发送至服务端: ");
-                      Scanner sc = new Scanner(System.in);
-                      String line = sc.nextLine();
+                  if (!SessionUtil.hasLogin(channel)){
+                      System.out.print("输入用户名登录: ");
+                      String username = sc.nextLine();
+                      loginRequestPacket.setUsername(username);
 
-                      MessageRequestPacket packet = new MessageRequestPacket();
-                      packet.setMessage(line);
-                      ByteBuf byteBuf = PacketCodec.INSTANCE.encode(channel.alloc().ioBuffer(), packet);
-                      channel.writeAndFlush(byteBuf);
- //                 }
+                      // 密码使用默认的
+                      loginRequestPacket.setPassword("123456");
+
+                      // 发送登录数据包
+                      channel.writeAndFlush(loginRequestPacket);
+                      waitForLoginResponse();
+                  } else {
+                      String toUserId = sc.next();
+                      String message = sc.next();
+                      channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                  }
               }
         }).start();
+    }
+
+    /**
+     * 模拟登录响应
+     */
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 }

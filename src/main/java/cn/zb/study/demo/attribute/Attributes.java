@@ -1,5 +1,6 @@
 package cn.zb.study.demo.attribute;
 
+import cn.zb.study.demo.session.Session;
 import io.netty.util.AttributeKey;
 
 /**
@@ -13,4 +14,10 @@ public interface Attributes {
      * 登录标识
      */
     AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
+
+    /**
+     * session标识
+     */
+    AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
+
 }
