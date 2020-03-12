@@ -1,10 +1,14 @@
 package cn.zb.study.demo.client;
 
+import cn.zb.study.demo.client.handler.CreateGroupResponseHandler;
 import cn.zb.study.demo.client.handler.LoginResponseHandler;
+import cn.zb.study.demo.client.handler.LogoutResponseHandler;
 import cn.zb.study.demo.client.handler.MessageResponseHandler;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
+import cn.zb.study.demo.console.ConsoleCommandManager;
+import cn.zb.study.demo.console.LoginConsoleCommand;
 import cn.zb.study.demo.protocol.request.LoginRequestPacket;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
 import cn.zb.study.demo.util.SessionUtil;
@@ -48,6 +52,8 @@ public class NettyClient {
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new CreateGroupResponseHandler());
+                        ch.pipeline().addLast(new LogoutResponseHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
@@ -85,28 +91,18 @@ public class NettyClient {
      * 开启控制台线程
      */
     private static void startConsoleThread(Channel channel){
-        Scanner sc = new Scanner(System.in);
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+        Scanner scanner = new Scanner(System.in);
 
         new Thread(() -> {
-              while (!Thread.interrupted()){
-                  if (!SessionUtil.hasLogin(channel)){
-                      System.out.print("输入用户名登录: ");
-                      String username = sc.nextLine();
-                      loginRequestPacket.setUsername(username);
-
-                      // 密码使用默认的
-                      loginRequestPacket.setPassword("123456");
-
-                      // 发送登录数据包
-                      channel.writeAndFlush(loginRequestPacket);
-                      waitForLoginResponse();
-                  } else {
-                      String toUserId = sc.next();
-                      String message = sc.next();
-                      channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
-                  }
-              }
+            while (!Thread.interrupted()){
+                if (!SessionUtil.hasLogin(channel)) {
+                    loginConsoleCommand.exec(scanner, channel);
+                } else {
+                    consoleCommandManager.exec(scanner, channel);
+                }
+            }
         }).start();
     }
 

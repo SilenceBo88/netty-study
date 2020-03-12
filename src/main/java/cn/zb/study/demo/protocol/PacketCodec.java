@@ -1,12 +1,20 @@
 package cn.zb.study.demo.protocol;
 
+import static cn.zb.study.demo.protocol.command.Command.CREATE_GROUP_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.CREATE_GROUP_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.LOGIN_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.LOGIN_RESPONSE;
+import static cn.zb.study.demo.protocol.command.Command.LOGOUT_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.LOGOUT_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.MESSAGE_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.MESSAGE_RESPONSE;
+import cn.zb.study.demo.protocol.request.CreateGroupRequestPacket;
 import cn.zb.study.demo.protocol.request.LoginRequestPacket;
+import cn.zb.study.demo.protocol.request.LogoutRequestPacket;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
+import cn.zb.study.demo.protocol.response.CreateGroupResponsePacket;
 import cn.zb.study.demo.protocol.response.LoginResponsePacket;
+import cn.zb.study.demo.protocol.response.LogoutResponsePacket;
 import cn.zb.study.demo.protocol.response.MessageResponsePacket;
 import cn.zb.study.demo.serialize.Serializer;
 import cn.zb.study.demo.serialize.impl.JSONSerializer;
@@ -76,6 +84,10 @@ public class PacketCodec {
         packetMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
         packetMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
         packetMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
+        packetMap.put(LOGOUT_REQUEST, LogoutRequestPacket.class);
+        packetMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        packetMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

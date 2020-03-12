@@ -4,7 +4,9 @@ import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
 import cn.zb.study.demo.server.handler.AuthHandler;
+import cn.zb.study.demo.server.handler.CreateGroupRequestHandler;
 import cn.zb.study.demo.server.handler.LoginRequestHandler;
+import cn.zb.study.demo.server.handler.LogoutRequestHandler;
 import cn.zb.study.demo.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -46,6 +48,8 @@ public class NettyServer {
                         // 新增加用户认证handler
                         ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandler());
+                        ch.pipeline().addLast(new CreateGroupRequestHandler());
+                        ch.pipeline().addLast(new LogoutRequestHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
