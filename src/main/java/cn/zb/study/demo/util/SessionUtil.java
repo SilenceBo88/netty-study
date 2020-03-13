@@ -3,6 +3,7 @@ package cn.zb.study.demo.util;
 import cn.zb.study.demo.attribute.Attributes;
 import cn.zb.study.demo.session.Session;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SessionUtil {
 
     private static final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
+
+    private static final Map<String, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
 
     /**
      * 绑定session
@@ -53,5 +56,19 @@ public class SessionUtil {
      */
     public static Channel getChannel(String userId) {
         return userIdChannelMap.get(userId);
+    }
+
+    /**
+     * 绑定channelGroup
+     */
+    public static void bindChannelGroup(String groupId, ChannelGroup channelGroup) {
+        groupIdChannelGroupMap.put(groupId, channelGroup);
+    }
+
+    /**
+     * 获取channelGroup
+     */
+    public static ChannelGroup getChannelGroup(String groupId) {
+        return groupIdChannelGroupMap.get(groupId);
     }
 }

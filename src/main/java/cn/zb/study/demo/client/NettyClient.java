@@ -1,9 +1,12 @@
 package cn.zb.study.demo.client;
 
 import cn.zb.study.demo.client.handler.CreateGroupResponseHandler;
+import cn.zb.study.demo.client.handler.JoinGroupResponseHandler;
+import cn.zb.study.demo.client.handler.ListGroupMembersResponseHandler;
 import cn.zb.study.demo.client.handler.LoginResponseHandler;
 import cn.zb.study.demo.client.handler.LogoutResponseHandler;
 import cn.zb.study.demo.client.handler.MessageResponseHandler;
+import cn.zb.study.demo.client.handler.QuitGroupResponseHandler;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
@@ -48,12 +51,25 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
+                        // 分离器
                         ch.pipeline().addLast(new Spliter());
+                        // 解码器
                         ch.pipeline().addLast(new PacketDecoder());
+                        // 登录响应处理器
                         ch.pipeline().addLast(new LoginResponseHandler());
+                        // 收消息处理器
                         ch.pipeline().addLast(new MessageResponseHandler());
+                        // 创建群响应处理器
                         ch.pipeline().addLast(new CreateGroupResponseHandler());
+                        // 加群响应处理器
+                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+                        // 退群响应处理器
+                        ch.pipeline().addLast(new QuitGroupResponseHandler());
+                        // 获取群成员响应处理器
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
+                        // 登出响应处理器
                         ch.pipeline().addLast(new LogoutResponseHandler());
+                        // 编码器
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });

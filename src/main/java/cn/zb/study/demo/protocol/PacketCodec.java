@@ -2,20 +2,32 @@ package cn.zb.study.demo.protocol;
 
 import static cn.zb.study.demo.protocol.command.Command.CREATE_GROUP_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.CREATE_GROUP_RESPONSE;
+import static cn.zb.study.demo.protocol.command.Command.JOIN_GROUP_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.JOIN_GROUP_RESPONSE;
+import static cn.zb.study.demo.protocol.command.Command.LIST_GROUP_MEMBERS_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.LIST_GROUP_MEMBERS_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.LOGIN_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.LOGIN_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.LOGOUT_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.LOGOUT_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.MESSAGE_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.MESSAGE_RESPONSE;
+import static cn.zb.study.demo.protocol.command.Command.QUIT_GROUP_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.QUIT_GROUP_RESPONSE;
 import cn.zb.study.demo.protocol.request.CreateGroupRequestPacket;
+import cn.zb.study.demo.protocol.request.JoinGroupRequestPacket;
+import cn.zb.study.demo.protocol.request.ListGroupMembersRequestPacket;
 import cn.zb.study.demo.protocol.request.LoginRequestPacket;
 import cn.zb.study.demo.protocol.request.LogoutRequestPacket;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
+import cn.zb.study.demo.protocol.request.QuitGroupRequestPacket;
 import cn.zb.study.demo.protocol.response.CreateGroupResponsePacket;
+import cn.zb.study.demo.protocol.response.JoinGroupResponsePacket;
+import cn.zb.study.demo.protocol.response.ListGroupMembersResponsePacket;
 import cn.zb.study.demo.protocol.response.LoginResponsePacket;
 import cn.zb.study.demo.protocol.response.LogoutResponsePacket;
 import cn.zb.study.demo.protocol.response.MessageResponsePacket;
+import cn.zb.study.demo.protocol.response.QuitGroupResponsePacket;
 import cn.zb.study.demo.serialize.Serializer;
 import cn.zb.study.demo.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -73,8 +85,6 @@ public class PacketCodec {
      */
     private final Map<Byte, Serializer> serializerMap;
 
-
-
     /**
      * 数据初始化
      */
@@ -88,6 +98,12 @@ public class PacketCodec {
         packetMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
         packetMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetMap.put(JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetMap.put(JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetMap.put(QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetMap.put(QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetMap.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        packetMap.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
