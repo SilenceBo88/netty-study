@@ -1,16 +1,8 @@
 package cn.zb.study.demo.client;
 
-import cn.zb.study.demo.client.handler.CreateGroupResponseHandler;
-import cn.zb.study.demo.client.handler.GroupMessageResponseHandler;
-import cn.zb.study.demo.client.handler.JoinGroupResponseHandler;
-import cn.zb.study.demo.client.handler.ListGroupMembersResponseHandler;
+import cn.zb.study.demo.client.handler.IMResponseHandler;
 import cn.zb.study.demo.client.handler.LoginResponseHandler;
-import cn.zb.study.demo.client.handler.LogoutResponseHandler;
-import cn.zb.study.demo.client.handler.MessageResponseHandler;
-import cn.zb.study.demo.client.handler.QuitGroupResponseHandler;
 import cn.zb.study.demo.codec.PacketCodecHandler;
-import cn.zb.study.demo.codec.PacketDecoder;
-import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
 import cn.zb.study.demo.console.ConsoleCommandManager;
 import cn.zb.study.demo.console.LoginConsoleCommand;
@@ -57,20 +49,8 @@ public class NettyClient {
                         ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         // 登录响应处理器
                         ch.pipeline().addLast(LoginResponseHandler.INSTANCE);
-                        // 收消息处理器
-                        ch.pipeline().addLast(MessageResponseHandler.INSTANCE);
-                        // 创建群响应处理器
-                        ch.pipeline().addLast(CreateGroupResponseHandler.INSTANCE);
-                        // 加群响应处理器
-                        ch.pipeline().addLast(JoinGroupResponseHandler.INSTANCE);
-                        // 退群响应处理器
-                        ch.pipeline().addLast(QuitGroupResponseHandler.INSTANCE);
-                        // 获取群成员响应处理器
-                        ch.pipeline().addLast(ListGroupMembersResponseHandler.INSTANCE);
-                        // 群聊消息响应处理器
-                        ch.pipeline().addLast(GroupMessageResponseHandler.INSTANCE);
-                        // 登出响应处理器
-                        ch.pipeline().addLast(LogoutResponseHandler.INSTANCE);
+                        // IM响应处理器
+                        ch.pipeline().addLast(IMResponseHandler.INSTANCE);
                     }
                 });
 

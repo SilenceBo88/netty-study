@@ -1,18 +1,10 @@
 package cn.zb.study.demo.server;
 
 import cn.zb.study.demo.codec.PacketCodecHandler;
-import cn.zb.study.demo.codec.PacketDecoder;
-import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
 import cn.zb.study.demo.server.handler.AuthHandler;
-import cn.zb.study.demo.server.handler.CreateGroupRequestHandler;
-import cn.zb.study.demo.server.handler.GroupMessageRequestHandler;
-import cn.zb.study.demo.server.handler.JoinGroupRequestHandler;
-import cn.zb.study.demo.server.handler.ListGroupMembersRequestHandler;
+import cn.zb.study.demo.server.handler.IMRequestHandler;
 import cn.zb.study.demo.server.handler.LoginRequestHandler;
-import cn.zb.study.demo.server.handler.LogoutRequestHandler;
-import cn.zb.study.demo.server.handler.MessageRequestHandler;
-import cn.zb.study.demo.server.handler.QuitGroupRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -54,20 +46,8 @@ public class NettyServer {
                         ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
                         // 用户认证请求处理器
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
-                        // 单聊消息请求处理器
-                        ch.pipeline().addLast(MessageRequestHandler.INSTANCE);
-                        // 创建群请求处理器
-                        ch.pipeline().addLast(CreateGroupRequestHandler.INSTANCE);
-                        // 加群请求处理器
-                        ch.pipeline().addLast(JoinGroupRequestHandler.INSTANCE);
-                        // 退群请求处理器
-                        ch.pipeline().addLast(QuitGroupRequestHandler.INSTANCE);
-                        // 获取群成员请求处理器
-                        ch.pipeline().addLast(ListGroupMembersRequestHandler.INSTANCE);
-                        // 群聊消息请求处理器
-                        ch.pipeline().addLast(GroupMessageRequestHandler.INSTANCE);
-                        // 登出请求处理器
-                        ch.pipeline().addLast(LogoutRequestHandler.INSTANCE);
+                        // IM请求处理器
+                        ch.pipeline().addLast(IMRequestHandler.INSTANCE);
                     }
                 });
 
