@@ -1,5 +1,6 @@
 package cn.zb.study.demo.server;
 
+import cn.zb.study.demo.codec.PacketCodecHandler;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
@@ -45,10 +46,10 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
-                        // 分离器
+                        // 分离器 有状态
                         ch.pipeline().addLast(new Spliter());
-                        // 解码器
-                        ch.pipeline().addLast(new PacketDecoder());
+                        // 编解码器
+                        ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         // 登录请求处理器
                         ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
                         // 用户认证请求处理器
@@ -67,8 +68,6 @@ public class NettyServer {
                         ch.pipeline().addLast(GroupMessageRequestHandler.INSTANCE);
                         // 登出请求处理器
                         ch.pipeline().addLast(LogoutRequestHandler.INSTANCE);
-                        // 编码器
-                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 

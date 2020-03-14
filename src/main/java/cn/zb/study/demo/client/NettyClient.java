@@ -8,6 +8,7 @@ import cn.zb.study.demo.client.handler.LoginResponseHandler;
 import cn.zb.study.demo.client.handler.LogoutResponseHandler;
 import cn.zb.study.demo.client.handler.MessageResponseHandler;
 import cn.zb.study.demo.client.handler.QuitGroupResponseHandler;
+import cn.zb.study.demo.codec.PacketCodecHandler;
 import cn.zb.study.demo.codec.PacketDecoder;
 import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
@@ -50,10 +51,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
-                        // 分离器
+                        // 分离器 有状态
                         ch.pipeline().addLast(new Spliter());
-                        // 解码器
-                        ch.pipeline().addLast(new PacketDecoder());
+                        // 编解码器
+                        ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         // 登录响应处理器
                         ch.pipeline().addLast(LoginResponseHandler.INSTANCE);
                         // 收消息处理器
@@ -70,8 +71,6 @@ public class NettyClient {
                         ch.pipeline().addLast(GroupMessageResponseHandler.INSTANCE);
                         // 登出响应处理器
                         ch.pipeline().addLast(LogoutResponseHandler.INSTANCE);
-                        // 编码器
-                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
