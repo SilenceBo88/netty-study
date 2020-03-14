@@ -2,7 +2,9 @@ package cn.zb.study.demo.server;
 
 import cn.zb.study.demo.codec.PacketCodecHandler;
 import cn.zb.study.demo.codec.Spliter;
+import cn.zb.study.demo.handler.IMIdleStateHandler;
 import cn.zb.study.demo.server.handler.AuthHandler;
+import cn.zb.study.demo.server.handler.HeartBeatRequestHandler;
 import cn.zb.study.demo.server.handler.IMRequestHandler;
 import cn.zb.study.demo.server.handler.LoginRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -38,12 +40,16 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
+                        // 空闲检测
+                        ch.pipeline().addLast(new IMIdleStateHandler());
                         // 分离器 有状态
                         ch.pipeline().addLast(new Spliter());
                         // 编解码器
                         ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         // 登录请求处理器
                         ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
+                        // 心跳请求处理器
+                        ch.pipeline().addLast(HeartBeatRequestHandler.INSTANCE);
                         // 用户认证请求处理器
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
                         // IM请求处理器

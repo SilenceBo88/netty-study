@@ -1,11 +1,14 @@
 package cn.zb.study.demo.client;
 
+import cn.zb.study.demo.client.handler.HeartBeatResponsetHandler;
+import cn.zb.study.demo.client.timer.HeartBeatTimer;
 import cn.zb.study.demo.client.handler.IMResponseHandler;
 import cn.zb.study.demo.client.handler.LoginResponseHandler;
 import cn.zb.study.demo.codec.PacketCodecHandler;
 import cn.zb.study.demo.codec.Spliter;
-import cn.zb.study.demo.console.ConsoleCommandManager;
-import cn.zb.study.demo.console.LoginConsoleCommand;
+import cn.zb.study.demo.client.console.ConsoleCommandManager;
+import cn.zb.study.demo.client.console.LoginConsoleCommand;
+import cn.zb.study.demo.handler.IMIdleStateHandler;
 import cn.zb.study.demo.util.SessionUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -43,14 +46,21 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
+                        // 空闲检测
+                        ch.pipeline().addLast(new IMIdleStateHandler());
                         // 分离器 有状态
                         ch.pipeline().addLast(new Spliter());
                         // 编解码器
                         ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         // 登录响应处理器
                         ch.pipeline().addLast(LoginResponseHandler.INSTANCE);
+                        // 心跳请求处理器
+                        ch.pipeline().addLast(HeartBeatResponsetHandler.INSTANCE);
                         // IM响应处理器
                         ch.pipeline().addLast(IMResponseHandler.INSTANCE);
+
+                        // 心跳定时器
+                        ch.pipeline().addLast(new HeartBeatTimer());
                     }
                 });
 

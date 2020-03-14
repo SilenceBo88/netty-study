@@ -1,4 +1,4 @@
-package cn.zb.study.demo.console;
+package cn.zb.study.demo.client.console;
 
 import io.netty.channel.Channel;
 
