@@ -3,6 +3,7 @@ package cn.zb.study.demo.server.handler;
 import cn.zb.study.demo.protocol.request.LogoutRequestPacket;
 import cn.zb.study.demo.protocol.response.LogoutResponsePacket;
 import cn.zb.study.demo.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -11,7 +12,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @Author: zb
  * @Date: 2020-03-12
  */
+@ChannelHandler.Sharable // 加上注解标识，表明该 handler 是可以多个 channel 共享的
 public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutRequestPacket> {
+
+    // 构造单例
+    public static final LogoutRequestHandler INSTANCE = new LogoutRequestHandler();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LogoutRequestPacket msg) {

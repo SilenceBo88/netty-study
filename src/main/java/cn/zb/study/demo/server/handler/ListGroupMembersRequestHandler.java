@@ -5,6 +5,7 @@ import cn.zb.study.demo.protocol.response.ListGroupMembersResponsePacket;
 import cn.zb.study.demo.session.Session;
 import cn.zb.study.demo.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -17,7 +18,11 @@ import java.util.List;
  * @Author: zb
  * @Date: 2020-03-13
  */
+@ChannelHandler.Sharable // 加上注解标识，表明该 handler 是可以多个 channel 共享的
 public class ListGroupMembersRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+
+    // 构造单例
+    public static final ListGroupMembersRequestHandler INSTANCE = new ListGroupMembersRequestHandler();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersRequestPacket requestPacket) {
