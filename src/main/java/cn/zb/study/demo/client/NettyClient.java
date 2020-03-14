@@ -1,6 +1,7 @@
 package cn.zb.study.demo.client;
 
 import cn.zb.study.demo.client.handler.CreateGroupResponseHandler;
+import cn.zb.study.demo.client.handler.GroupMessageResponseHandler;
 import cn.zb.study.demo.client.handler.JoinGroupResponseHandler;
 import cn.zb.study.demo.client.handler.ListGroupMembersResponseHandler;
 import cn.zb.study.demo.client.handler.LoginResponseHandler;
@@ -12,8 +13,6 @@ import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
 import cn.zb.study.demo.console.ConsoleCommandManager;
 import cn.zb.study.demo.console.LoginConsoleCommand;
-import cn.zb.study.demo.protocol.request.LoginRequestPacket;
-import cn.zb.study.demo.protocol.request.MessageRequestPacket;
 import cn.zb.study.demo.util.SessionUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -67,6 +66,8 @@ public class NettyClient {
                         ch.pipeline().addLast(new QuitGroupResponseHandler());
                         // 获取群成员响应处理器
                         ch.pipeline().addLast(new ListGroupMembersResponseHandler());
+                        // 群聊消息响应处理器
+                        ch.pipeline().addLast(new GroupMessageResponseHandler());
                         // 登出响应处理器
                         ch.pipeline().addLast(new LogoutResponseHandler());
                         // 编码器

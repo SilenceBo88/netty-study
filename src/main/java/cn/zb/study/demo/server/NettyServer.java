@@ -5,6 +5,7 @@ import cn.zb.study.demo.codec.PacketEncoder;
 import cn.zb.study.demo.codec.Spliter;
 import cn.zb.study.demo.server.handler.AuthHandler;
 import cn.zb.study.demo.server.handler.CreateGroupRequestHandler;
+import cn.zb.study.demo.server.handler.GroupMessageRequestHandler;
 import cn.zb.study.demo.server.handler.JoinGroupRequestHandler;
 import cn.zb.study.demo.server.handler.ListGroupMembersRequestHandler;
 import cn.zb.study.demo.server.handler.LoginRequestHandler;
@@ -62,6 +63,8 @@ public class NettyServer {
                         ch.pipeline().addLast(new QuitGroupRequestHandler());
                         // 获取群成员请求处理器
                         ch.pipeline().addLast(new ListGroupMembersRequestHandler());
+                        // 群聊消息请求处理器
+                        ch.pipeline().addLast(new GroupMessageRequestHandler());
                         // 登出请求处理器
                         ch.pipeline().addLast(new LogoutRequestHandler());
                         // 编码器

@@ -2,6 +2,8 @@ package cn.zb.study.demo.protocol;
 
 import static cn.zb.study.demo.protocol.command.Command.CREATE_GROUP_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.CREATE_GROUP_RESPONSE;
+import static cn.zb.study.demo.protocol.command.Command.GROUP_MESSAGE_REQUEST;
+import static cn.zb.study.demo.protocol.command.Command.GROUP_MESSAGE_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.JOIN_GROUP_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.JOIN_GROUP_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.LIST_GROUP_MEMBERS_REQUEST;
@@ -15,6 +17,7 @@ import static cn.zb.study.demo.protocol.command.Command.MESSAGE_RESPONSE;
 import static cn.zb.study.demo.protocol.command.Command.QUIT_GROUP_REQUEST;
 import static cn.zb.study.demo.protocol.command.Command.QUIT_GROUP_RESPONSE;
 import cn.zb.study.demo.protocol.request.CreateGroupRequestPacket;
+import cn.zb.study.demo.protocol.request.GroupMessageRequestPacket;
 import cn.zb.study.demo.protocol.request.JoinGroupRequestPacket;
 import cn.zb.study.demo.protocol.request.ListGroupMembersRequestPacket;
 import cn.zb.study.demo.protocol.request.LoginRequestPacket;
@@ -22,6 +25,7 @@ import cn.zb.study.demo.protocol.request.LogoutRequestPacket;
 import cn.zb.study.demo.protocol.request.MessageRequestPacket;
 import cn.zb.study.demo.protocol.request.QuitGroupRequestPacket;
 import cn.zb.study.demo.protocol.response.CreateGroupResponsePacket;
+import cn.zb.study.demo.protocol.response.GroupMessageResponsePacket;
 import cn.zb.study.demo.protocol.response.JoinGroupResponsePacket;
 import cn.zb.study.demo.protocol.response.ListGroupMembersResponsePacket;
 import cn.zb.study.demo.protocol.response.LoginResponsePacket;
@@ -104,6 +108,8 @@ public class PacketCodec {
         packetMap.put(QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
         packetMap.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
         packetMap.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
+        packetMap.put(GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
+        packetMap.put(GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
